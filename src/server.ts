@@ -1,4 +1,5 @@
 import Fastify, { RouteShorthandOptions } from "fastify";
+import { IParams, opts } from "./schema/url-param.schema";
 
 const fastify = Fastify({
 	logger: true,
@@ -9,23 +10,14 @@ const fastify = Fastify({
  * 2. GET /api/v1/shortUrl => redirect user to mapped url
  */
 
-// endpoints
-interface IParams {
-	url: string;
-}
+/*
+ * Appraoch
+ * 1. UserSend LongURl
+ * 2. Check DB if exsist url return shortUrl
+ * 3. if Not createUniqueNumber and convertToBase62 and mapped to long url
+ * */
 
-const opts: RouteShorthandOptions = {
-	schema: {
-		params: {
-			type: "object",
-			properties: {
-				url: { type: "string" },
-			},
-		},
-	},
-};
-
-fastify.post<{ Params: IParams }>("/:url", opts, (req, reply) => {
+fastify.post<{ Params: IParams }>("/:url", opts, (req, _) => {
 	const { url } = req.params;
 	// TODO: Map Url To ShortUrl
 });
