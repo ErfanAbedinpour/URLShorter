@@ -1,2 +1,6 @@
-import { Redis } from "ioredis";
-const redis = new Redis();
+import Redis from "ioredis";
+
+export function createRedisConnection(): Redis {
+	const redis = new Redis({ host: "localhost" });
+	return redis;
+}
