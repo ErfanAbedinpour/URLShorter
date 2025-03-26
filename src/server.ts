@@ -24,6 +24,7 @@ fastify.post<{ Params: IParams }>("/:url", opts, (req, _) => {
 
 fastify.get<{ Params: IParams }>("/:url", opts, (req, reply) => {
 	// TODO: GetShortUrl in Param and returned LongUrl
+	return { hello: "salam" };
 });
 
 try {
