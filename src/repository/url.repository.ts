@@ -26,4 +26,16 @@ export class UrlRepository implements Repository {
 			throw err
 		}
 	}
+
+
+	async findOriginalUrl(shortUrlId: string) {
+		const query = `SELECT long_url FROM url WHERE short_url = $1`
+		const conditions = [shortUrlId];
+		try {
+			const { rows } = await this.client.query(query, conditions);
+			return rows[0]
+		} catch (err) {
+			throw err;
+		}
+	}
 }
