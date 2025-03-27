@@ -14,10 +14,11 @@
 	"packageManager": "pnpm@10.6.2",
 	"dependencies": {
 		"fastify": "^5.2.2",
-		"ioredis": "^5.6.0"
+		"pg": "^8.14.1"
 	},
 	"devDependencies": {
 		"@types/node": "^22.13.13",
+		"@types/pg": "^8.11.11",
 		"typescript": "^5.8.2"
 	}
 }

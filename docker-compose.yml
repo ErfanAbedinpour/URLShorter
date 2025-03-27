@@ -4,6 +4,34 @@ services:
       context: .
       dockerfile: ./Dockerfile
     ports:
-      - "3000:3000"
+      - ${PORT}:3000
+    env_file:
+      - .env
     volumes:
       - .:/app
+
+  psql:
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+      - data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USERNAME}
+
+  adminer:
+    image: adminer
+    restart: always
+    depends_on:
+      - psql
+    environment:
+      ADMINER_DEFAULT_SERVER: psql
+    ports:
+      - 8080:8080
+  
+
+volumes:
+  data: 
