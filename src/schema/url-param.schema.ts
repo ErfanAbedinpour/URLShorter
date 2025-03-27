@@ -1,16 +1,7 @@
 import { RouteShorthandOptions } from "fastify";
 
-export interface IParams {
+export interface IBody {
 	url: string;
 }
+export interface IParam extends IBody { }
 
-export const opts: RouteShorthandOptions = {
-	schema: {
-		params: {
-			type: "object",
-			properties: {
-				url: { type: "string" },
-			},
-		},
-	},
-};
