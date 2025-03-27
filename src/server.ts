@@ -17,8 +17,9 @@ fastify.post<{ Body: IBody }>("/", async (req, reply) => {
 	try {
 		const isShortUrlExist = await urlService.isLongUrlExist(url);
 		if (isShortUrlExist)
-			return { shortUrl: isShortUrlExist }
-
+			return {
+				short_url: `http://localhost:3000/${isShortUrlExist}`
+			}
 
 		const uniqueNumber = uniqueIdGenerator();
 		const uniqueBase62 = convertToBase62(uniqueNumber);
@@ -42,7 +43,7 @@ fastify.get<{ Params: IParam }>("/:url", async (req, reply) => {
 		reply.send({ message: "enter url in param" }).code(404)
 
 	try {
-		const { long_url } = await urlService.getOriginalUrlByShortUrl(url) || { long_url: null };
+		const long_url = await urlService.getOriginalUrlByShortUrl(url);
 
 		if (!long_url)
 			return reply.send({ message: "url is not found please first register it." }).code(404)
@@ -55,7 +56,7 @@ fastify.get<{ Params: IParam }>("/:url", async (req, reply) => {
 
 
 try {
-	fastify.listen({ port: 3000 });
+	fastify.listen({ port: +(process.env.PORT || 3000) });
 } catch (err) {
 	console.error(err);
 	process.exit(1);
