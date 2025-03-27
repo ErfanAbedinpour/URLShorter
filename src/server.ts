@@ -1,31 +1,58 @@
-import Fastify, { RouteShorthandOptions } from "fastify";
-import { IParams, opts } from "./schema/url-param.schema";
+import Fastify from "fastify";
+import { IBody, IParam } from "./schema/url-param.schema";
+import urlService from "./service/url.service";
+import { uniqueIdGenerator } from "./utils/uniqueIdGenerator";
+import { convertToBase62 } from "./utils/convertToBase62";
 
-const fastify = Fastify({
-	logger: true,
+const fastify = Fastify({ logger: true });
+
+
+fastify.post<{ Body: IBody }>("/", async (req, reply) => {
+	const { url } = req.body;
+
+	if (!url)
+		return reply.send({ message: "url is not found in body" }).code(400);
+
+
+	try {
+		const isShortUrlExist = await urlService.isLongUrlExist(url);
+		if (isShortUrlExist)
+			return { shortUrl: isShortUrlExist }
+
+
+		const uniqueNumber = uniqueIdGenerator();
+		const uniqueBase62 = convertToBase62(uniqueNumber);
+
+		urlService.createNewShortUrl({
+			id: uniqueNumber,
+			longUrl: url,
+			shortUrl: uniqueBase62,
+		})
+		return { shortUrl: `http://localhost:3000/${uniqueBase62}` }
+
+
+	} catch (err) {
+		return reply.send({ message: "internal server error during create url" }).code(500)
+	}
 });
 
-/*
- * 1. POST /api/v1/LongUrl => Create Short Url for User
- * 2. GET /api/v1/shortUrl => redirect user to mapped url
- */
-
-/*
- * Appraoch
- * 1. UserSend LongURl
- * 2. Check DB if exsist url return shortUrl
- * 3. if Not createUniqueNumber and convertToBase62 and mapped to long url
- * */
-
-fastify.post<{ Params: IParams }>("/:url", opts, (req, _) => {
+fastify.get<{ Params: IParam }>("/:url", async (req, reply) => {
 	const { url } = req.params;
-	// TODO: Map Url To ShortUrl
+	if (!url)
+		reply.send({ message: "enter url in param" }).code(404)
+
+	try {
+		const { long_url } = await urlService.getOriginalUrlByShortUrl(url) || { long_url: null };
+
+		if (!long_url)
+			return reply.send({ message: "url is not found please first register it." }).code(404)
+
+		return reply.redirect(long_url, 301)
+	} catch (err) {
+		return reply.send({ message: "internal server error during find LongUrl" }).code(500)
+	}
 });
 
-fastify.get<{ Params: IParams }>("/:url", opts, (req, reply) => {
-	// TODO: GetShortUrl in Param and returned LongUrl
-	return { hello: "salam" };
-});
 
 try {
 	fastify.listen({ port: 3000 });
