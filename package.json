@@ -1,19 +1,24 @@
 {
-  "name": "url-shorter",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "packageManager": "pnpm@10.6.2",
-  "dependencies": {
-    "fastify": "^5.2.2"
-  },
-  "devDependencies": {
-    "@types/node": "^22.13.13"
-  }
+	"name": "url-shorter",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "node --env-file=.env dist/server.js",
+		"build": "tsc"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"packageManager": "pnpm@10.6.2",
+	"dependencies": {
+		"fastify": "^5.2.2",
+		"pg": "^8.14.1"
+	},
+	"devDependencies": {
+		"@types/node": "^22.13.13",
+		"@types/pg": "^8.11.11",
+		"typescript": "^5.8.2"
+	}
 }
