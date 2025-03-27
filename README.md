@@ -38,10 +38,11 @@ pnpm start
 ```sh
     cp .env.example .env
 ```
-2. Run docker
+3. Run docker
 ```sh
 docker compose up
 ```
+4. Migration: Copy migration/url-table.sql Content and connect to Database and execute them
 
 ## API Endpoints
 
