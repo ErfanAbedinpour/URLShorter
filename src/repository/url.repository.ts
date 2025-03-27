@@ -21,19 +21,19 @@ export class UrlRepository implements Repository {
 		const condition = [longUrl]
 		try {
 			const res = await this.client.query(query, condition)
-			return res.rows[0]
+			return res.rows[0].short_url || null
 		} catch (err) {
 			throw err
 		}
 	}
 
 
-	async findOriginalUrl(shortUrlId: string) {
+	async findOriginalUrl(shortUrlId: string): Promise<string | null> {
 		const query = `SELECT long_url FROM url WHERE short_url = $1`
 		const conditions = [shortUrlId];
 		try {
 			const { rows } = await this.client.query(query, conditions);
-			return rows[0]
+			return rows[0].long_url || null
 		} catch (err) {
 			throw err;
 		}
