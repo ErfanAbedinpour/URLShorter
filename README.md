@@ -6,7 +6,7 @@ This is a simple URL shortener service built using Fastify and PostgreSQL.
 
 1. Clone the repository:
    ```sh
-   git clone <repo-url> .
+   git clone https://github.com/ErfanAbedinpour/URLShorter.git .
    ```
 
 2. Install dependencies:
@@ -29,7 +29,12 @@ pnpm start
 ```
 
 ## Installation Using Docker
-1. Configuration. fill them
+1. Clone Repository
+```sh
+   git clone https://github.com/ErfanAbedinpour/URLShorter.git .
+   ```
+
+2. Configuration. fill them
 ```sh
     cp .env.example .env
 ```
