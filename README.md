@@ -6,8 +6,7 @@ This is a simple URL shortener service built using Fastify and PostgreSQL.
 
 1. Clone the repository:
    ```sh
-   git clone <repo-url>
-   cd <repo-folder>
+   git clone <repo-url> .
    ```
 
 2. Install dependencies:
@@ -15,15 +14,28 @@ This is a simple URL shortener service built using Fastify and PostgreSQL.
    pnpm install
    ```
 
-3. Set up your PostgreSQL database and update your connection settings in the project.
+3. Configuration. fill them
+```sh
+    cp .env.example .env
+```
 
-4. Run database migrations if needed.
+4. Copy content in migration/url-table.sql and Execute them into Your Postgres Database.
 
 ## Running the Application
 
 Start the Fastify server:
 ```sh
 pnpm start
+```
+
+## Installation Using Docker
+1. Configuration. fill them
+```sh
+    cp .env.example .env
+```
+2. Run docker
+```sh
+docker compose up
 ```
 
 ## API Endpoints
@@ -53,7 +65,3 @@ GET http://host:port/{shortUrl}
 ```
 **Response:**
 Redirects to the original URL.
-
-## License
-MIT
-

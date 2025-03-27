@@ -33,6 +33,7 @@ fastify.post<{ Body: IBody }>("/", async (req, reply) => {
 
 
 	} catch (err) {
+		console.error(err)
 		return reply.send({ message: "internal server error during create url" }).code(500)
 	}
 });
@@ -50,13 +51,14 @@ fastify.get<{ Params: IParam }>("/:url", async (req, reply) => {
 
 		return reply.redirect(long_url, 301)
 	} catch (err) {
+		console.error(err)
 		return reply.send({ message: "internal server error during find LongUrl" }).code(500)
 	}
 });
 
 
 try {
-	fastify.listen({ port: +(process.env.PORT || 3000) });
+	fastify.listen({ port: +(process.env.PORT || 3000), host: '0.0.0.0' });
 } catch (err) {
 	console.error(err);
 	process.exit(1);
