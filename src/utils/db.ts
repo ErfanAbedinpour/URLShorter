@@ -1,7 +1,14 @@
 import { Client } from "pg";
+import { DB_CONFIG } from "../config/db.config";
 
 export function createDatabaseConnection() {
-	const client = new Client({ host: 'localhost', port: 5432, password: "12341234", database: "url-shorter", user: 'admin' });
+	const client = new Client({
+		host: DB_CONFIG.DB_HOST,
+		port: DB_CONFIG.DB_PORT,
+		password: DB_CONFIG.DB_PASSWORD,
+		database: DB_CONFIG.DB_NAME,
+		user: DB_CONFIG.DB_USER
+	});
 	try {
 		client.connect();
 		return client;
