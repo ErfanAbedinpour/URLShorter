@@ -53,8 +53,8 @@
         })
           .then((response) => response.json())
           .then((data) => {
-            const shortUrl = `${data.shortUrl}`;
-            document.getElementById("shortUrl").href = shortUrl;
+            const shortUrl = data.shortUrl;
+            document.getElementById("shortUrl").href = `//${shortUrl}`;
             document.getElementById("shortUrl").innerText = shortUrl;
             document.getElementById("result").style.display = "block";
           })
