@@ -3,8 +3,19 @@ import { IBody, IParam } from "./schema/url-param.schema";
 import urlService from "./service/url.service";
 import { uniqueIdGenerator } from "./utils/uniqueIdGenerator";
 import { convertToBase62 } from "./utils/convertToBase62";
+import fastifyStatic from '@fastify/static';
+import path from "path";
 
 const fastify = Fastify({ logger: true });
+
+fastify.register(fastifyStatic, {
+	root: path.join(process.cwd(), 'public'),
+});
+
+
+fastify.get('/', async (req, reply) => {
+	return reply.sendFile('index.html');
+});
 
 
 fastify.post<{ Body: IBody }>("/", async (req, reply) => {
@@ -18,7 +29,7 @@ fastify.post<{ Body: IBody }>("/", async (req, reply) => {
 		const isShortUrlExist = await urlService.isLongUrlExist(url);
 		if (isShortUrlExist)
 			return {
-				short_url: `${req.host}/${isShortUrlExist}`
+				shortUrl: `${req.host}/${isShortUrlExist}`
 			}
 
 		const uniqueNumber = uniqueIdGenerator();
