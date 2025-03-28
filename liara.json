@@ -1,0 +1,8 @@
+{
+"app":"urll-shortener",
+"port":80,
+"build":{
+"location":"iran"
+},
+"disks":[]
+}
