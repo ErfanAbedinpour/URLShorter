@@ -1,5 +1,6 @@
 services:
   app:
+    restart: always
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -7,9 +8,7 @@ services:
       - ${PORT}:3000
     env_file:
       - .env
-    volumes:
-      - .:/app
-
+    
   psql:
     image: postgres
     restart: always

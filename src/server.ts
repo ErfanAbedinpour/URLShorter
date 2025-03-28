@@ -18,7 +18,7 @@ fastify.post<{ Body: IBody }>("/", async (req, reply) => {
 		const isShortUrlExist = await urlService.isLongUrlExist(url);
 		if (isShortUrlExist)
 			return {
-				short_url: `http://localhost:3000/${isShortUrlExist}`
+				short_url: `${req.host}/${isShortUrlExist}`
 			}
 
 		const uniqueNumber = uniqueIdGenerator();
@@ -29,8 +29,7 @@ fastify.post<{ Body: IBody }>("/", async (req, reply) => {
 			longUrl: url,
 			shortUrl: uniqueBase62,
 		})
-		return { shortUrl: `http://localhost:3000/${uniqueBase62}` }
-
+		return { shortUrl: `${req.host}/${uniqueBase62}` }
 
 	} catch (err) {
 		console.error(err)
@@ -47,12 +46,12 @@ fastify.get<{ Params: IParam }>("/:url", async (req, reply) => {
 		const long_url = await urlService.getOriginalUrlByShortUrl(url);
 
 		if (!long_url)
-			return reply.send({ message: "url is not found please first register it." }).code(404)
+			return reply.send({ message: "url does not found please first register it." }).code(404)
 
 		return reply.redirect(long_url, 301)
 	} catch (err) {
 		console.error(err)
-		return reply.send({ message: "internal server error during find LongUrl" }).code(500)
+		return reply.send({ message: "url doest nof found please first register it." }).code(500)
 	}
 });
 
